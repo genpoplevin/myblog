@@ -6,4 +6,21 @@
     Published {{ post.publish }} by {{ post.author }}
   </p>
   {{ post.body|linebreaks }}
+  {% with comments.count as total_comments %}
+    <h2>
+      Всего комментариев: {{ total_comments }} 
+    </h2>
+  {% endwith %}
+  {% for comment in comments %}
+    <div class="comment">
+      <p class="info">
+        Комментарий {{ forloop.counter }} пользователя {{ comment.name }}
+        {{ comment.created }}
+      </p>
+      {{ comment.body|linebreaks }}
+    </div>
+  {% empty %}
+    <p>Еще нет комментариев.</p>
+  {% endfor %}
+  {% include "blog/post/includes/comment_form.html" %}
 {% endblock %}
