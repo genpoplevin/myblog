@@ -15,6 +15,9 @@ class PostListView(ListView):
 
 
 def post_list(request):
+    """
+    Альтернативное представление для отображения постов.
+    """
     post_list = Post.published.all()
     paginator = Paginator(post_list, 3)
     page_number = request.GET.get('page', 1)
