@@ -13,6 +13,7 @@ def dashboard(request):
         {'section': 'dashboard'}
     )
 
+
 def register(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)

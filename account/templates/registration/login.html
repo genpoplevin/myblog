@@ -10,11 +10,11 @@
 {% else %}
   <p>
     Пожалуйста, используйте следующую форму, чтобы войти.
-    Если у вас еще нет профиля, <a href="{% url 'register' %}">зарегистрируйтесь здесь</a>.
+    Если у вас еще нет профиля, <a href="{% url 'account:register' %}">зарегистрируйтесь здесь</a>.
   </p>
 {% endif %}
 <div class="login-form">
-  <form action="{% url 'login' %}" method="post">
+  <form action="{% url 'account:login' %}" method="post">
     {{ form.as_p }}
     {% csrf_token %}
     <input type="hidden" name="next" value="{{ next }}" />
