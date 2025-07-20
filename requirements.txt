@@ -1,0 +1,7 @@
+asgiref==3.8.1
+Django==5.0.12
+django-braces==1.15.0
+django-taggit==5.0.1
+pillow==10.3.0
+sqlparse==0.5.3
+tzdata==2025.1
