@@ -32,7 +32,9 @@ Myblog - это сервис, на котором пользователь мо�
 - /account
 - /account/register
 - /blog
-- /blog/year/month/day/post/
+- /blog/year/month/day/post
+- /blog/create
+- /blog/post_id/edit
 ---
 
 ## Установка и запуск //
