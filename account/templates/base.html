@@ -7,15 +7,12 @@
   </head>
   <body>
     <div id="header">
-      <span class="logo">MyBlog</span>
+      <span class="logo"><a href="{% url "blog:post_list" %}">MyBlog</a></span>
       {% if request.user.is_authenticated %}
         <ul class="menu">
-          <li {% if section == "dashboard" %}class="selected"{% endif %}>
-            <a href="{% url "account:dashboard" %}">My dashboard</a>
-          </li>
-          <li {% if section == "images" %}class="selected"{% endif %}>
-            <a href="#">Images</a>
-          </li>
+          <li  {% if section == "dashboard" %}class="selected"{% endif %}> 
+          <a href="{% url 'blog:post_create' %}">Новая запись</a>
+        </li>
           <li {% if section == "people" %}class="selected"{% endif %}>
             <a href="#">People</a>
           </li>

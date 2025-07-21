@@ -1,8 +1,12 @@
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from taggit.managers import TaggableManager
+
+
+User = get_user_model()
 
 
 class PublishedManager(models.Manager):
@@ -23,7 +27,7 @@ class Post(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='blog_posts'
+        related_name='posts'
     )
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
@@ -32,7 +36,7 @@ class Post(models.Model):
     status = models.CharField(
         max_length=2,
         choices=Status,
-        default=Status.DRAFT
+        default=Status.PUBLISHED
     )
     tags = TaggableManager()
 
@@ -81,3 +85,19 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Комментарий автора {self.name} на пост {self.post}'
+
+
+class Follow(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='follower',
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='following',
+    )
+
+    def __str__(self):
+        return f'{self.user} follows {self.author}'

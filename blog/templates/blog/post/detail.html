@@ -5,6 +5,11 @@
   <p class="date">
     Published {{ post.publish }} by {{ post.author }}
   </p>
+  <li class="list-group-item">
+              <a href="{% url 'blog:profile' post.author.username %}">
+                все посты пользователя
+              </a>
+            </li>
   {{ post.body|linebreaks }}
   {% with comments.count as total_comments %}
     <h2>
