@@ -35,6 +35,7 @@ Myblog - это сервис, на котором пользователь мо�
 - /blog/year/month/day/post
 - /blog/create
 - /blog/post_id/edit
+- profile/<username>/
 ---
 
 ## Установка и запуск //
