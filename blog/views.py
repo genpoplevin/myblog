@@ -44,7 +44,8 @@ def post_list(request, tag_slug=None):
         'blog/post/list.html',
         {
             'posts': posts,
-            'tag': tag
+            'tag': tag,
+            'section': 'post_list'
         }
     )
 
@@ -105,6 +106,7 @@ def post_create(request):
     form = PostForm(request.POST or None)
     context = {
         'form': form,
+        'section': 'create'
     }
     if form.is_valid():
         post = form.save(commit=False)
@@ -115,9 +117,16 @@ def post_create(request):
 
 
 @login_required
-def post_edit(request, post_id):
-    template = 'posts/create_post.html'
-    post = get_object_or_404(Post, id=post_id)
+def post_edit(request, year, month, day, post):
+    template = 'blog/post/create_post.html'
+    post = get_object_or_404(
+        Post,
+        status=Post.Status.PUBLISHED,
+        slug=post,
+        publish__year=year,
+        publish__month=month,
+        publish__day=day,
+    )
     form = PostForm(
         request.POST or None,
         files=request.FILES or None,
@@ -125,7 +134,6 @@ def post_edit(request, post_id):
     )
     context = {
         'form': form,
-        'post_id': post_id,
         'post': post,
         'is_edit': True,
     }
@@ -133,8 +141,28 @@ def post_edit(request, post_id):
         post = form.save(commit=False)
         post.author = request.user
         post.save()
-        return redirect(f'/posts/{post.id}', id=post_id)
+        return redirect(f'/blog/{post.publish.year}/{post.publish.month}/{post.publish.day}/{post.slug}')
     return render(request, template, context)
+
+
+@login_required
+def post_delete(request, year, month, day, post):
+    post = get_object_or_404(
+        Post,
+        status=Post.Status.PUBLISHED,
+        slug=post,
+        publish__year=year,
+        publish__month=month,
+        publish__day=day,
+    )
+    if request.method == 'POST':
+        post.delete()
+        return redirect('blog:post_list')
+    return render(
+        request,
+        'blog/post/post_delete_confirm.html',
+        {'post': post}
+    )
 
 
 def profile(request, username):
@@ -163,16 +191,17 @@ def profile(request, username):
 def follow_index(request):
     """Выводит посты авторов, на которых
        подписан текущий пользователь."""
-    template = 'posts/follow.html'
+    template = 'blog/post/follow.html'
     user = request.user
     post_list = Post.objects.filter(
         author__following__user=user
     )
-    paginator = Paginator(post_list, settings.ARTICLES_SELECTION)
+    paginator = Paginator(post_list, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
-        'page_obj': page_obj
+        'page_obj': page_obj,
+        'section': 'follow'
     }
     return render(request, template, context)
 

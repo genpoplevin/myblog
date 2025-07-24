@@ -12,6 +12,11 @@ urlpatterns = [
         name='post_list_by_tag'
     ),
     path(
+        'follow/',
+        views.follow_index,
+        name='follow_index'
+    ),
+    path(
         '<int:year>/<int:month>/<int:day>/<slug:post>/',
         views.post_detail,
         name='post_detail'
@@ -27,19 +32,19 @@ urlpatterns = [
         name='post_create'
     ),
     path(
-        '<int:post_id>/edit/',
+        '<int:year>/<int:month>/<int:day>/<slug:post>/edit/',
         views.post_edit,
         name='post_edit'
+    ),
+    path(
+        '<int:year>/<int:month>/<int:day>/<slug:post>/delete/',
+        views.post_delete,
+        name='post_delete'
     ),
     path(
         'profile/<str:username>/',
         views.profile,
         name='profile'
-    ),
-    path(
-        'follow/',
-        views.follow_index,
-        name='follow_index'
     ),
     path(
         'profile/<str:username>/follow/',

@@ -11,6 +11,18 @@
               </a>
             </li>
   {{ post.body|linebreaks }}
+  {% if request.user == post.author %}
+    <a 
+    class="btn btn-primary" 
+    href="{{ post.get_absolute_edit_url }}">
+      редактировать запись
+    </a>
+    <a 
+    class="btn btn-primary" 
+    href="{{ post.get_absolute_delete_url }}">
+      удалить запись
+    </a>
+  {% endif %}
   {% with comments.count as total_comments %}
     <h2>
       Всего комментариев: {{ total_comments }} 

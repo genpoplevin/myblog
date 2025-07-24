@@ -10,11 +10,14 @@
       <span class="logo"><a href="{% url "blog:post_list" %}">MyBlog</a></span>
       {% if request.user.is_authenticated %}
         <ul class="menu">
-          <li  {% if section == "dashboard" %}class="selected"{% endif %}> 
-          <a href="{% url 'blog:post_create' %}">Новая запись</a>
-        </li>
-          <li {% if section == "people" %}class="selected"{% endif %}>
-            <a href="#">People</a>
+          <li {% if section == "post_list" %}class="selected"{% endif %}>
+            <a href="{% url 'blog:post_list' %}">Все записи</a>
+          </li>
+          <li {% if section == "follow" %}class="selected"{% endif %}>
+            <a href="{% url 'blog:follow_index' %}">Подписки</a>
+          </li>
+          <li  {% if section == "create" %}class="selected"{% endif %}> 
+            <a href="{% url 'blog:post_create' %}">Новая запись</a>
           </li>
         </ul>
       {% endif %}
@@ -26,7 +29,8 @@
             {% csrf_token %}
           </form>
         {% else %}
-          <a href="{% url "account:login" %}">Log-in</a>
+          <a href="{% url "account:login" %}">Войти</a>
+          <a href="{% url "account:register" %}">Зарегистрироваться</a>
         {% endif %}
       </span>
     </div>

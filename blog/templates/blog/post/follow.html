@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Подписки пользователя {{ user.get_full_name }}
+{% endblock %}
+
+{% block content %}
+  {% for post in page_obj %}
+    <ul>
+      <li>
+        Автор: {{ post.author.get_full_name }}
+        <a href="{% url 'blog:profile' post.author.username %}">
+          все посты пользователя
+      </a>
+      </li>
+      <li>
+        Дата публикации: {{ post.pub_date|date:"d E Y" }}
+      </li>
+    </ul>
+    <p>{{ post.body }}</p>
+    <a href="{{ post.get_absolute_url }}">подробная информация</a>
+    {% if post.group %}    
+      <a href="{% url 'blog:group_list' post.group.slug %}">
+        все записи группы
+      </a>
+    {% endif %}
+    {% if not forloop.last %}<hr>{% endif %}
+  {% endfor %}
+  
+  {% include 'pagination.html' with page=page_obj %}
+
+{% endblock %}
