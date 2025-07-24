@@ -36,10 +36,10 @@ Myblog - это сервис, на котором пользователь мо�
 - /blog/create
 - /blog/year/month/day/post/edit
 - /blog/year/month/day/post/delete
-- /profile/<username>
+- /profile/username
 - /follow
-- /profile/<username>/follow
-- /profile/<username>/unfollow
+- /profile/username/follow
+- /profile/username/unfollow
 ---
 
 ## Установка и запуск //
