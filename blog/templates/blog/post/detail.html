@@ -2,17 +2,20 @@
 {% block title %}{{ post.title }}{% endblock %}
 {% block content %}
   <h1>{{ post.title }}</h1>
-  <p class="date">
-    Published {{ post.publish }} by {{ post.author }}
-  </p>
+  {% if post.is_hidden %}
+    <p><em>Этот пост скрыт и доступен только по ссылке</em></p>
+  {% else %}
+    <p class="date">
+      Published {{ post.publish }} by {{ post.author }}
+    </p>
   <li class="list-group-item">
               <a href="{% url 'blog:profile' post.author.username %}">
                 все посты пользователя
               </a>
             </li>
-  {{ post.body|linebreaks }}
-  {% if request.user == post.author %}
-    <a 
+            {{ post.body|linebreaks }}
+            {% if request.user == post.author %}
+            <a 
     class="btn btn-primary" 
     href="{{ post.get_absolute_edit_url }}">
       редактировать запись
@@ -24,9 +27,9 @@
     </a>
   {% endif %}
   {% with comments.count as total_comments %}
-    <h2>
-      Всего комментариев: {{ total_comments }} 
-    </h2>
+  <h2>
+    Всего комментариев: {{ total_comments }} 
+  </h2>
   {% endwith %}
   {% for comment in comments %}
     <div class="comment">
@@ -36,8 +39,9 @@
       </p>
       {{ comment.body|linebreaks }}
     </div>
-  {% empty %}
+    {% empty %}
     <p>Еще нет комментариев.</p>
-  {% endfor %}
-  {% include "blog/post/includes/comment_form.html" %}
+    {% endfor %}
+    {% include "blog/post/includes/comment_form.html" %}
+    {% endif %}
 {% endblock %}

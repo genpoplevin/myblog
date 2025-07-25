@@ -1,3 +1,4 @@
+import uuid
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
@@ -39,6 +40,8 @@ class Post(models.Model):
         default=Status.PUBLISHED
     )
     tags = TaggableManager()
+    is_hidden = models.BooleanField(default=False)
+    secret_key = models.UUIDField(default=uuid.uuid4, blank=True)
 
     objects = models.Manager()
     published = PublishedManager()

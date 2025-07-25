@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView
@@ -64,16 +65,18 @@ def post_detail(request, year, month, day, post):
     )
     comments = post.comments.filter(active=True)
     form = CommentForm()
-
-    return render(
-        request,
-        'blog/post/detail.html',
-        {
-            'post': post,
-            'comments': comments,
-            'form': form
-        }
-    )
+    token = request.GET.get('token')
+    if not post.is_hidden or str(post.secret_key) == token:
+        return render(
+            request,
+            'blog/post/detail.html',
+            {
+                'post': post,
+                'comments': comments,
+                'form': form
+            }
+        )
+    return HttpResponseForbidden('Этот пост доступен только по запросу')
 
 
 @require_POST
