@@ -64,5 +64,7 @@ python manage.py migrate
 ```bash
 python manage.py runserver
 ```
+6. Проект будет доступен по адресу: localhost:8000/ или 127.0.0.1:8000/.
+
 ## Лицензия
 MIT License
